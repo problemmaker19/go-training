@@ -18,13 +18,6 @@ func lineReadInt(s *bufio.Scanner) (int, error) {
 	return v, nil
 }
 
-func getBetween(n, min, max int) int {
-	if (n >= min) && (n <= max) {
-		return n
-	}
-	return -1
-}
-
 func fight(s *bufio.Scanner, n int) {
 
 	min, max := 15, 30
@@ -37,12 +30,22 @@ func fight(s *bufio.Scanner, n int) {
 		s.Scan()
 		adj := s.Text()
 
-		num, _ := strconv.Atoi(adj[3:]) //
-		operator := adj[0]              // Parsing condition
+		num, _ := strconv.Atoi(adj[3:])
+		operator := adj[0]
 
-		limiter[operator] = num // Set new condition in limiter
+		if operator == '>' && num > limiter[operator] {
+			limiter[operator] = num
+		}
 
-		fmt.Println(getBetween(num, limiter[62], limiter[60]), limiter)
+		if operator == '<' && num < limiter[operator] {
+			limiter[operator] = num
+		}
+
+		if limiter[62] > limiter[60] {
+			fmt.Println(-1, limiter)
+		} else {
+			fmt.Println(limiter[62], limiter)
+		}
 	}
 
 	fmt.Println("")
